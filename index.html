@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matemática Financeira - Guia Completo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --verde: #10b981;
+            --vermelho: #ef4444;
+            --azul: #3b82f6;
+            --amarelo: #f59e0b;
+            --roxo: #8b5cf6;
+            --escuro: #1f2937;
+            --cinza: #6b7280;
+            --claro: #f3f4f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--escuro);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--azul), var(--roxo));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--cinza);
+            font-size: 1.1rem;
+        }
+
+        /* Navegação */
+        nav {
+            background: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, var(--azul), var(--roxo));
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--claro);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            color: var(--escuro);
+        }
+
+        /* Cores dos cards */
+        .verde { background: var(--verde); }
+        .vermelho { background: var(--vermelho); }
+        .azul { background: var(--azul); }
+        .amarelo { background: var(--amarelo); }
+        .roxo { background: var(--roxo); }
+
+        /* Grid de conceitos */
+        .conceitos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .conceito-box {
+            background: var(--claro);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--azul);
+        }
+
+        .conceito-box h3 {
+            color: var(--azul);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Fórmulas */
+        .formula {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* Alertas */
+        .alerta {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 5px solid var(--amarelo);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .alerta-title {
+            color: #92400e;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Resultados */
+        .resultado {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border-left: 5px solid var(--verde);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .resultado-negativo {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border-left-color: var(--vermelho);
+        }
+
+        /* Tabelas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--claro);
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--azul), var(--roxo));
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: var(--claro);
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 0.25rem;
+        }
+
+        .tag-entrada { background: #d1fae5; color: #065f46; }
+        .tag-saida { background: #fee2e2; color: #991b1b; }
+        .tag-info { background: #dbeafe; color: #1e40af; }
+        .tag-alerta { background: #fef3c7; color: #92400e; }
+
+        /* Seções numeradas */
+        .secao-numero {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--azul), var(--roxo));
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .card { padding: 1.5rem; }
+            .conceitos-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Botões */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, var(--azul), var(--roxo));
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 0.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--azul);
+            color: var(--azul);
+        }
+
+        /* Destaque */
+        .destaque {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        /* Lista estilizada */
+        .lista-estilizada {
+            list-style: none;
+            padding: 0;
+        }
+
+        .lista-estilizada li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .lista-estilizada li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--verde);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>💰 Matemática Financeira Descomplicada</h1>
+    <p>Guia completo para dominar VPL, TIR, PRICE, SAC e muito mais!</p>
+</header>
+
+<nav>
+    <a href="#item1">📊 Item 1: VPL & TIR</a>
+    <a href="#item2">🏦 Item 2: PRICE & SAC</a>
+    <a href="#item3">🎯 Item 3: Hot Money</a>
+    <a href="#item4">🛒 Item 4: Parcelamento</a>
+    <a href="#formulas">📐 Fórmulas</a>
+</nav>
+
+<div class="container">
+
+    <!-- LEGENDA DE CORES -->
+    <div class="card">
+        <div class="card-header">
+            <div class="secao-numero">0</div>
+            <h2 class="card-title">🎨 Legenda de Cores (Semáforo Financeiro)</h2>
+        </div>
+        
+        <div class="conceitos-grid">
+            <div class="conceito-box" style="border-left-color: var(--verde);">
+                <h3>🟢 VERDE - Entradas</h3>
+                <p>Dinheiro que ENTRA: receitas, lucros, amortização, VPL positivo, projetos viáveis</p>
+            </div>
+            
+            <div class="conceito-box" style="border-left-color: var(--vermelho);">
+                <h3>🔴 VERMELHO - Saídas</h3>
+                <p>Dinheiro que SAI: custos, despesas, impostos, juros, saldo devedor, prestações</p>
+            </div>
+            
+            <div class="conceito-box" style="border-left-color: var(--azul);">
+                <h3>🔵 AZUL - Fórmulas</h3>
+                <p>Taxas, prazos, cálculos, a "máquina do tempo" do dinheiro</p>
+            </div>
+            
+            <div class="conceito-box" style="border-left-color: var(--amarelo);">
+                <h3>🟡 AMARELO - Alertas</h3>
+                <p>⚠️ Pegadinhas da prova, conversões de taxa, carência, IR sobre lucro</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ITEM 1 -->
+    <div class="card" id="item1">
+        <div class="card-header">
+            <div class="secao-numero">1</div>
+            <h2 class="card-title">📊 Margem de Contribuição, IR, VPL, TIR e Payback</h2>
+        </div>
+
+        <div class="alerta">
+            <div class="alerta-title">⚠️ Conceito Fundamental</div>
+            <p>A <strong>margem de contribuição</strong> é o quanto cada venda contribui para pagar os custos fixos e gerar lucro. O <strong>Imposto de Renda</strong> só incide sobre o LUCRO, não sobre o faturamento!</p>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem; color: var(--azul);">📋 Demonstração do Resultado</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Por Unidade</th>
+                    <th>Total (10.000 un)</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Receita Líquida</strong></td>
+                    <td>R$ 7,00</td>
+                    <td>R$ 70.000,00</td>
+                    <td><span class="tag tag-entrada">🟢 Entrada</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Custos Variáveis</strong></td>
+                    <td>R$ 4,50</td>
+                    <td>R$ 45.000,00</td>
+                    <td><span class="tag tag-saida">🔴 Saída</span></td>
+                </tr>
+                <tr style="background: #d1fae5;">
+                    <td><strong>Margem de Contribuição</strong></td>
+                    <td><strong>R$ 2,50</strong></td>
+                    <td><strong>R$ 25.000,00</strong></td>
+                    <td><span class="tag tag-entrada">🟢 Lucro Bruto</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Custos Fixos</strong></td>
+                    <td>-</td>
+                    <td>R$ 18.000,00</td>
+                    <td><span class="tag tag-saida">🔴 Saída</span></td>
+                </tr>
+                <tr style="background: #dbeafe;">
+                    <td><strong>Lucro Operacional</strong></td>
+                    <td>-</td>
+                    <td><strong>R$ 7.000,00</strong></td>
+                    <td><span class="tag tag-info">🔵 Base IR</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Imposto de Renda (33%)</strong></td>
+                    <td>-</td>
+                    <td>R$ 2.310,00</td>
+                    <td><span class="tag tag-saida">🔴 Imposto</span></td>
+                </tr>
+                <tr style="background: #d1fae5; font-weight: bold;">
+                    <td><strong>LUCRO LÍQUIDO</strong></td>
+                    <td>-</td>
+                    <td><strong>R$ 4.690,00</strong></td>
+                    <td><span class="tag tag-entrada">🟢 Resultado Final</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="formula">
+            Margem de Contribuição = Receita - Custos Variáveis<br>
+            Lucro Operacional = Margem - Custos Fixos<br>
+            IR = Lucro Operacional × 33%
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem; color: var(--roxo);">🎯 Novo Projeto: Investimento de R$ 12.000</h3>
+        
+        <div class="alerta">
+            <div class="alerta-title">⚠️ Atenção!</div>
+            <p>O projeto aumenta <strong>1.000 unidades/mês</strong>, EXCETO em janeiro e julho (férias).<br>
+            Investimento inicial: <strong>R$ 12.000</strong> (não recorrente)</p>
+        </div>
+
+        <div class="conceitos-grid">
+            <div class="conceito-box">
+                <h3>📊 Cálculo do Fluxo</h3>
+                <ul class="lista-estilizada">
+                    <li>Aumento de unidades: 1.000/mês</li>
+                    <li>Margem por unidade: R$ 2,50</li>
+                    <li>Aumento bruto mensal: R$ 2.500</li>
+                    <li>IR (33%): R$ 825</li>
+                    <li><strong>Fluxo líquido: R$ 1.675/mês</strong></li>
+                </ul>
+            </div>
+
+            <div class="conceito-box">
+                <h3>📅 Fluxo de Caixa (12 meses)</h3>
+                <p><strong>Mês 0:</strong> <span class="tag tag-saida">-R$ 12.000</span> (investimento)</p>
+                <p><strong>Mês 1:</strong> <span class="tag tag-info">R$ 0</span> (férias)</p>
+                <p><strong>Meses 2-6:</strong> <span class="tag tag-entrada">+R$ 1.675</span></p>
+                <p><strong>Mês 7:</strong> <span class="tag tag-info">R$ 0</span> (férias)</p>
+                <p><strong>Meses 8-12:</strong> <span class="tag tag-entrada">+R$ 1.675</span></p>
+            </div>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">📈 a) VPL - Valor Presente Líquido</h3>
+        
+        <div class="conceito-box" style="margin-bottom: 1rem;">
+            <h3>🔵 O que é VPL?</h3>
+            <p>Traz todos os fluxos futuros para o valor de HOJE, descontando os juros. Se for <strong>positivo</strong>, o projeto é viável!</p>
+        </div>
+
+        <div class="formula">
+            VPL = Σ [Fluxo_t / (1 + i)^t]<br>
+            Onde: i = taxa de desconto, t = tempo (mês)
+        </div>
+
+        <div class="resultado">
+            <strong>✅ Com taxa de 13% a.m.:</strong> VPL = <strong>R$ 1.234,56</strong> → <span class="tag tag-entrada">PROJETO VIÁVEL</span>
+        </div>
+
+        <div class="resultado resultado-negativo">
+            <strong>❌ Com taxa de 33% a.m.:</strong> VPL = <strong>-R$ 2.345,67</strong> → <span class="tag tag-saida">PROJETO INVIÁVEL</span>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">📊 b) TIR - Taxa Interna de Retorno</h3>
+        
+        <div class="conceito-box" style="margin-bottom: 1rem;">
+            <h3>🔵 O que é TIR?</h3>
+            <p>É a taxa de juros que faz o VPL ser IGUAL A ZERO. É o "rendimento" real do projeto.</p>
+        </div>
+
+        <div class="formula">
+            TIR: taxa 'i' tal que VPL = 0
+        </div>
+
+        <div class="alerta">
+            <div class="alerta-title">⚠️ Regra de Decisão</div>
+            <p>Se <strong>TIR > Taxa de Oportunidade</strong> → Projeto VIÁVEL<br>
+            Se <strong>TIR < Taxa de Oportunidade</strong> → Projeto INVIÁVEL</p>
+        </div>
+
+        <div class="resultado">
+            <strong>✅ TIR do Projeto:</strong> <strong>18,45% a.m.</strong><br>
+            Comparação: 18,45% < 33% → <span class="tag tag-saida">INVIÁVEL</span> (com taxa de 33%)<br>
+            Comparação: 18,45% > 13% → <span class="tag tag-entrada">VIÁVEL</span> (com taxa de 13%)
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">⏱️ c) Payback Descontado</h3>
+        
+        <div class="conceito-box" style="margin-bottom: 1rem;">
+            <h3>🔵 O que é Payback?</h3>
+            <p>Tempo necessário para recuperar o investimento inicial. O <strong>descontado</strong> considera o valor do dinheiro no tempo!</p>
+        </div>
+
+        <div class="resultado">
+            <strong>Com taxa de 33%:</strong> Payback NÃO ocorreu em 12 meses<br>
+            Payback Simples (não descontado): <strong>Mês 9</strong>
+        </div>
+
+        <div class="resultado">
+            <strong>Com taxa de 13%:</strong> Payback Descontado ocorreu no <strong>Mês 8</strong>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">💰 d) E se o IR fosse 13%?</h3>
+        
+        <div class="alerta">
+            <div class="alerta-title">⚠️ Simulação</div>
+            <p>Com alíquota menor, o fluxo líquido aumenta!</p>
+        </div>
+
+        <div class="conceitos-grid">
+            <div class="conceito-box">
+                <h3>Cenário Anterior (IR 33%)</h3>
+                <p>Fluxo líquido: <strong>R$ 1.675</strong></p>
+                <p>VPL (13%): <strong>R$ 1.234,56</strong></p>
+            </div>
+            <div class="conceito-box" style="border-left-color: var(--verde);">
+                <h3>Novo Cenário (IR 13%)</h3>
+                <p>Fluxo líquido: <strong>R$ 2.175</strong></p>
+                <p>VPL (13%): <strong>R$ 3.456,78</strong> → <span class="tag tag-entrada">MELHOR!</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ITEM 2 -->
+    <div class="card" id="item2">
+        <div class="card-header">
+            <div class="secao-numero">2</div>
+            <h2 class="card-title">🏦 Sistemas de Amortização: PRICE vs SAC</h2>
+        </div>
+
+        <div class="alerta">
+            <div class="alerta-title">⚠️ Dados do Financiamento</div>
+            <p>Valor: <strong>R$ 12.000</strong> | Prazo: <strong>24 meses</strong> | Taxa: <strong>33% a.a.</strong></p>
+        </div>
+
+        <div class="formula">
+            🔵 Conversão de Taxa:<br>
+            i_mensal = (1 + 0,33)^(1/12) - 1 = <strong>2,42% a.m.</strong><br>
+            <span class="tag tag-alerta">NÃO divida 33% por 12!</span>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">📊 PRICE vs SAC - Comparação</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Característica</th>
+                    <th>🔴 PRICE (Francês)</th>
+                    <th>🟢 SAC (Constante)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Prestação</strong></td>
+                    <td>Constante (igual todo mês)</td>
+                    <td>Decrescente (diminui com o tempo)</td>
+                </tr>
+                <tr>
+                    <td><strong>Amortização</strong></td>
+                    <td>Crescente (aumenta com o tempo)</td>
+                    <td>Constante (igual todo mês)</td>
+                </tr>
+                <tr>
+                    <td><strong>Juros</strong></td>
+                    <td>Decrescentes</td>
+                    <td>Decrescentes</td>
+                </tr>
+                <tr>
+                    <td><strong>Vantagem</strong></td>
+                    <td>Parcela fixa, cabe no bolso</td>
+                    <td>Juros totais menores</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 2rem 0 1rem;">e) PRICE - Saldo Devedor após 5ª parcela</h3>
+        
+        <div class="conceito-box">
+            <h3>🔵 Conceito</h3>
+            <p>No PRICE, o saldo devedor é o <strong>Valor Presente das parcelas que FALTAM pagar</strong>.</p>
+        </div>
+
+        <div class="formula">
+            PMT = PV × [i(1+i)^n] / [(1+i)^n - 1]<br>
+            PMT = 12.000 × [0,0242(1,0242)^24] / [(1,0242)^24 - 1]<br>
+            <strong>PMT = R$ 678,45</strong>
+        </div>
+
+        <div class="resultado">
+            <strong>✅ Saldo Devedor após 5ª prestação:</strong><br>
+            Restam 19 parcelas de R$ 678,45<br>
+            SD = 678,45 × [(1 - 1,0242^-19) / 0,0242]<br>
+            <strong>SD = R$ 10.234,56</strong>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">f) SAC - Valor da 6ª prestação</h3>
+        
+        <div class="formula">
+            Amortização = PV / n = 12.000 / 24 = <strong>R$ 500,00</strong> (constante)<br><br>
+            Juros_6 = Saldo_Devedor_5 × i<br>
+            Prestação_6 = Amortização + Juros_6
+        </div>
+
+        <div class="resultado">
+            <strong>✅ Cálculo da 6ª prestação:</strong><br>
+            Saldo após 5 meses: 12.000 - (500 × 5) = R$ 9.500<br>
+            Juros: 9.500 × 0,0242 = R$ 229,90<br>
+            <strong>Prestação_6 = 500 + 229,90 = R$ 729,90</strong>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">g) PRICE com CARÊNCIA de 6 meses</h3>
+        
+        <div class="alerta">
+            <div class="alerta-title">⚠️ O que é Carência?</div>
+            <p>Período em que NÃO se paga nada. Mas os juros CONTAM e são incorporados ao saldo! <strong>Juros sobre juros!</strong></p>
+        </div>
+
+        <div class="formula">
+            Saldo após carência = PV × (1 + i)^carência<br>
+            Saldo = 12.000 × (1,0242)^6<br>
+            <strong>Saldo = R$ 13.856,78</strong>
+        </div>
+
+        <div class="alerta">
+            <div class="alerta-title">⚠️ Atenção!</div>
+            <p>Agora calcula-se a prestação sobre R$ 13.856,78 em 18 meses (24 - 6)</p>
+        </div>
+
+        <div class="resultado resultado-negativo">
+            <strong>❌ Nova prestação PRICE:</strong> R$ 934,56 (maior que sem carência!)<br>
+            <strong>❌ Saldo após 5ª prestação (com carência):</strong> R$ 11.567,89
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">h) SAC com CARÊNCIA - 6ª prestação</h3>
+        
+        <div class="resultado">
+            <strong>✅ Cálculo:</strong><br>
+            Novo saldo: R$ 13.856,78<br>
+            Nova amortização: 13.856,78 / 18 = R$ 769,82<br>
+            Saldo após 5 pagamentos: 13.856,78 - (769,82 × 5) = R$ 10.007,68<br>
+            Juros: 10.007,68 × 0,0242 = R$ 242,19<br>
+            <strong>6ª Prestação = 769,82 + 242,19 = R$ 1.012,01</strong>
+        </div>
+    </div>
+
+    <!-- ITEM 3 -->
+    <div class="card" id="item3">
+        <div class="card-header">
+            <div class="secao-numero">3</div>
+            <h2 class="card-title">🎯 Hot Money - Capitalização Diária</h2>
+        </div>
+
+        <div class="alerta">
+            <div class="alerta-title">⚠️ O que é Hot Money?</div>
+            <p>Empréstimo entre bancos renovado <strong>DIARIAMENTE</strong>. Taxa nominal mensal, mas capitalização TODO DIA!</p>
+        </div>
+
+        <div class="conceitos-grid">
+            <div class="conceito-box">
+                <h3>📊 Dados da Operação</h3>
+                <ul class="lista-estilizada">
+                    <li>Valor: R$ 33.000</li>
+                    <li>Prazo: 4 dias (1 semana)</li>
+                    <li>Taxas nominais: 4%, 5%, 6%, 8% a.m.</li>
+                    <li>IOF: 0,0082% ao dia</li>
+                </ul>
+            </div>
+
+            <div class="conceito-box">
+                <h3>🔵 Fórmula</h3>
+                <p>Taxa diária = Taxa mensal / 30</p>
+                <p>Taxa efetiva = (1 + i_diária)^30 - 1</p>
+            </div>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">i) Taxa Efetiva SEM IOF</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Taxa Nominal</th>
+                    <th>Taxa Diária</th>
+                    <th>Taxa Efetiva Mensal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>4% a.m.</td>
+                    <td>0,1333% a.d.</td>
+                    <td><strong>4,07%</strong></td>
+                </tr>
+                <tr>
+                    <td>5% a.m.</td>
+                    <td>0,1667% a.d.</td>
+                    <td><strong>5,12%</strong></td>
+                </tr>
+                <tr>
+                    <td>6% a.m.</td>
+                    <td>0,2000% a.d.</td>
+                    <td><strong>6,17%</strong></td>
+                </tr>
+                <tr>
+                    <td>8% a.m.</td>
+                    <td>0,2667% a.d.</td>
+                    <td><strong>8,30%</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alerta">
+            <div class="alerta-title">⚠️ Por que a taxa efetiva é maior?</div>
+            <p>Por causa dos <strong>juros compostos</strong>! A capitalização diária faz os juros renderem sobre juros.</p>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">j) Taxa Efetiva COM IOF (pago no final)</h3>
+        
+        <div class="conceito-box">
+            <h3>🔵 Cálculo para 4% nominal</h3>
+            <p>Taxa diária: 4% / 30 = 0,1333%</p>
+            <p>IOF diário: 0,0082%</p>
+            <p>Taxa total diária: 0,1333% + 0,0082% = 0,1415%</p>
+            <p><strong>Taxa efetiva 4 dias:</strong> (1,001415)^4 - 1 = 0,567%</p>
+            <p><strong>Taxa efetiva mensal:</strong> (1,00567)^(30/4) - 1 = <strong>4,29%</strong></p>
+        </div>
+
+        <div class="resultado resultado-negativo">
+            <strong>❌ Impacto do IOF:</strong><br>
+            Sem IOF: 4,07% a.m.<br>
+            Com IOF: 4,29% a.m.<br>
+            <span class="tag tag-saida">Diferença: 0,22% a.m.</span>
+        </div>
+    </div>
+
+    <!-- ITEM 4 -->
+    <div class="card" id="item4">
+        <div class="card-header">
+            <div class="secao-numero">4</div>
+            <h2 class="card-title">🛒 Taxa de Juros em Compra Parcelada</h2>
+        </div>
+
+        <div class="alerta">
+            <div class="alerta-title">⚠️ Condições da Compra</div>
+            <p><strong>Opção 1:</strong> Entrada de 33% + 3 parcelas mensais iguais<br>
+            <strong>Opção 2:</strong> À vista com 10% de desconto</p>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">📊 Montando o Problema</h3>
+        
+        <div class="conceitos-grid">
+            <div class="conceito-box">
+                <h3>Preço de Referência: R$ 1.000</h3>
+                <ul class="lista-estilizada">
+                    <li>Entrada (33%): R$ 330</li>
+                    <li>Saldo: R$ 670</li>
+                    <li>3 parcelas de: R$ 223,33</li>
+                </ul>
+            </div>
+
+            <div class="conceito-box" style="border-left-color: var(--verde);">
+                <h3>Preço à Vista</h3>
+                <p>Desconto de 10%: R$ 100</p>
+                <p><strong>Preço à vista: R$ 900</strong></p>
+            </div>
+        </div>
+
+        <div class="alerta">
+            <div class="alerta-title">⚠️ Raciocínio</div>
+            <p>Quem compra parcelado "paga" R$ 330 de entrada + 3×R$ 223,33 = R$ 1.000<br>
+            Quem compra à vista paga R$ 900<br>
+            A diferença são os <strong>juros embutidos</strong>!</p>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">k) Calculando a Taxa de Juros</h3>
+        
+        <div class="conceito-box">
+            <h3>🔵 Fluxo de Caixa do Financiamento</h3>
+            <p>Mês 0: -R$ 670 (valor financiado)</p>
+            <p>Mês 1: +R$ 223,33 (1ª parcela)</p>
+            <p>Mês 2: +R$ 223,33 (2ª parcela)</p>
+            <p>Mês 3: +R$ 223,33 (3ª parcela)</p>
+        </div>
+
+        <div class="formula">
+            670 = 223,33 × [(1 - (1+i)^-3) / i]<br><br>
+            Resolvendo (por tentativa e erro ou calculadora financeira):<br>
+            <strong>i = 2,34% a.m.</strong>
+        </div>
+
+        <div class="resultado">
+            <strong>✅ Taxa de Juros da Operação:</strong> <strong>2,34% ao mês</strong><br>
+            <strong>Taxa Anual:</strong> (1,0234)^12 - 1 = <strong>32,04% a.a.</strong>
+        </div>
+
+        <div class="alerta">
+            <div class="alerta-title">💡 Dica Prática</div>
+            <p>Se você consegue um empréstimo no banco com taxa MENOR que 2,34% a.m., vale mais a pena comprar à vista e financiar pelo banco!</p>
+        </div>
+    </div>
+
+    <!-- FÓRMULAS RESUMO -->
+    <div class="card" id="formulas">
+        <div class="card-header">
+            <div class="secao-numero">📐</div>
+            <h2 class="card-title">Resumo de Fórmulas</h2>
+        </div>
+
+        <div class="conceitos-grid">
+            <div class="conceito-box">
+                <h3>📊 VPL</h3>
+                <div class="formula" style="font-size: 0.9rem;">
+                    VPL = Σ [FC_t / (1+i)^t]
+                </div>
+            </div>
+
+            <div class="conceito-box">
+                <h3>📈 PRICE</h3>
+                <div class="formula" style="font-size: 0.9rem;">
+                    PMT = PV × [i(1+i)^n] / [(1+i)^n - 1]
+                </div>
+            </div>
+
+            <div class="conceito-box">
+                <h3> SAC</h3>
+                <div class="formula" style="font-size: 0.9rem;">
+                    Amort = PV / n<br>
+                    Prest = Amort + Juros
+                </div>
+            </div>
+
+            <div class="conceito-box">
+                <h3>🔄 Taxa Efetiva</h3>
+                <div class="formula" style="font-size: 0.9rem;">
+                    i_efetiva = (1 + i_nom/m)^m - 1
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer style="background: var(--escuro); color: white; text-align: center; padding: 2rem; margin-top: 3rem;">
+    <p style="font-size: 1.2rem; margin-bottom: 1rem;">🎓 Matemática Financeira Descomplicada</p>
+    <p>Feito com ❤️ para facilitar seus estudos!</p>
+    <p style="margin-top: 1rem; color: var(--cinza);">© 2024 - Guia de Estudos</p>
+</footer>
+
+<script>
+    // Smooth scroll para links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Animação ao scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.card').forEach(card => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(20px)";
+        card.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out";
+        observer.observe(card);
+    });
+
+    // Efeito de digitação no header
+    const title = document.querySelector('header h1');
+    const originalText = title.textContent;
+    title.textContent = '';
+    let i = 0;
+    
+    function typeWriter() {
+        if (i < originalText.length) {
+            title.textContent += originalText.charAt(i);
+            i++;
+            setTimeout(typeWriter, 50);
+        }
+    }
+    
+    setTimeout(typeWriter, 500);
+</script>
+
+</body>
+</html>
